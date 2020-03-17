@@ -7,28 +7,18 @@ public class UserInterface {
 
     private Scanner in;
     private Scanner fileReader;
-
     private List<Recipe> recipes;
     private List<String> names;
     private List<String> cookingTime;
     private List<String> fileIngredients;
 
     public UserInterface(Scanner in, Scanner fileReader) {
-
         this.in = in;
         this.fileReader = fileReader;
         this.recipes = new ArrayList<>();
         this.names = new ArrayList<>();
         this.cookingTime = new ArrayList<>();
         this.fileIngredients = new ArrayList<>();
-    }
-
-    public void print() {
-        List<String> a = addIngredients();
-        for (String string : a) {
-            System.out.println(string);
-        }
-
     }
 
     public void printRecipe() {
@@ -40,7 +30,7 @@ public class UserInterface {
     public void addRecipe() {
 
         for (int i = 0; i < names.size(); i++) {
-            var temp = new ArrayList<String>();
+            List<String> temp = new ArrayList();
             String name = names.get(i);
             int time = Integer.valueOf(cookingTime.get(i));
             Recipe r = new Recipe(name, time, temp);
@@ -49,7 +39,7 @@ public class UserInterface {
 
     }
 
-    public List<String> addIngredients() {
+    public void addIngredients() {
 
         List<String> temp = recipes.get(0).getIngredients();
         List<String> temp2 = recipes.get(1).getIngredients();
@@ -68,19 +58,32 @@ public class UserInterface {
 
         }
 
-        return temp3;
+    }
+
+    public void findIngredient(String word) {
+
+        for (Recipe recipe : recipes) {
+            List<String> temp = recipe.getIngredients();
+            if (temp.contains(word)) {
+                System.out.println(recipe);
+
+            }
+        }
     }
 
     public void start() {
-
         readFile();
         addRecipe();
         addIngredients();
 
         while (true) {
+
             System.out.println("Commands: ");
-            System.out.println(
-                    "list - lists the recipes\n" + "stop - stops the program" + "find name - searches recipes by name");
+            System.out.println("list - lists the recipes");
+            System.out.println("stop - stops the program");
+            System.out.println("find name - searches recipes by name");
+            System.out.println("find cooking time - searches recipes by cooking time");
+            System.out.println("find ingredient - searches recipes by ingredients");
 
             System.out.println("Enter command:  ");
 
@@ -92,12 +95,38 @@ public class UserInterface {
 
             if (input.equals("list")) {
 
+                System.out.println("Recipes: ");
                 printRecipe();
             }
+
             if (input.equals("find name")) {
+
                 System.out.println("Searched word: ");
                 String word = in.nextLine();
+
+                System.out.println("Recipes: ");
                 findByName(word);
+            }
+            if (input.equals("find cooking time")) {
+
+                System.out.println("Max cooking time: ");
+                try {
+                    int time = Integer.valueOf(in.nextLine());
+
+                    System.out.println("Recipes: ");
+                    findByTime(time);
+
+                } catch (Exception e) {
+                    System.out.println("Please only enter numbers here");
+                }
+
+            }
+            if (input.equals("find ingredient")) {
+
+                System.out.println("Ingredient: ");
+                String word = in.nextLine();
+                System.out.println("Recipes: ");
+                findIngredient(word);
             }
 
         }
@@ -107,6 +136,15 @@ public class UserInterface {
     public void findByName(String word) {
         for (Recipe recipe : recipes) {
             if (recipe.getName().contains(word)) {
+                System.out.println(recipe);
+
+            }
+        }
+    }
+
+    public void findByTime(int time) {
+        for (Recipe recipe : recipes) {
+            if (recipe.getCookingTime() <= time) {
                 System.out.println(recipe);
 
             }

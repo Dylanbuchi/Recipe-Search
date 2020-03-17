@@ -1,15 +1,6 @@
 
 import java.util.List;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author crypt
- */
 class Recipe {
 
     private String name;
@@ -36,7 +27,8 @@ class Recipe {
 
     @Override
     public String toString() {
-        return name + ", cooking time: " + cookingTime; //To change body of generated methods, choose Tools | Templates.
+        return name + ", cooking time: " + cookingTime;
+
     }
 
 }
